@@ -35,19 +35,19 @@ if uploaded_file is not None:
         df[col_val] = df[col_val].apply(limpar_moeda)
         df[col_saldo] = df[col_saldo].apply(limpar_moeda)
 
-        df_lanara = pd.DataFrame()
-        df_lanara['Data'] = df['Data_Formatada']
-        df_lanara['Tipo'] = df[col_hist] 
-        df_lanara['Histórico'] = ""
-        df_lanara['Documento'] = df[col_doc]
-        df_lanara['Valor (R$)'] = df[col_val]
-        df_lanara['Saldo'] = df[col_saldo]
-        df_lanara['Categoria'] = ""
-        df_lanara['Obs'] = ""
+        df_planilha = pd.DataFrame()
+        df_planilha['Data'] = df['Data_Formatada']
+        df_planilha['Tipo'] = df[col_hist] 
+        df_planilha['Histórico'] = ""
+        df_planilha['Documento'] = df[col_doc]
+        df_planilha['Valor (R$)'] = df[col_val]
+        df_planilha['Saldo'] = df[col_saldo]
+        df_planilha['Categoria'] = ""
+        df_planilha['Obs'] = ""
 
         buffer = BytesIO()
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-            df_lanara.to_excel(writer, index=False, sheet_name='Extrato')
+            df_planilha.to_excel(writer, index=False, sheet_name='Extrato')
             
             workbook = writer.book
             worksheet = writer.sheets['Extrato']
