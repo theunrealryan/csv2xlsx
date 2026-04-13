@@ -8,37 +8,35 @@ Um micro-SaaS open-source desenvolvido para automatizar a limpeza, formatação 
 
 ## 🚀 O Problema
 
-A conciliação bancária manual exige formatação repetitiva: exclusão de cabeçalhos inúteis, conversão de tipagem de dados, ordenação cronológica invertida e padronização de moedas. Este projeto elimina esse trabalho manual, transformando um CSV bruto do banco (ex: Santander) em um Excel pronto para importação no sistema do cliente em segundos.
+A conciliação bancária manual exige formatação repetitiva: exclusão de cabeçalhos inúteis, conversão de tipagem de dados, ordenação cronológica invertida e padronização de moedas. Este projeto elimina esse trabalho manual, transformando um CSV bruto do banco em um Excel pronto para importação no sistema final do cliente em segundos.
 
 ## ✨ Funcionalidades
 
 - **Upload Drag-and-Drop:** Interface limpa e intuitiva construída com Streamlit.
-- **Data Cleaning Dinâmico:** Ignora automaticamente cabeçalhos e rodapés inúteis gerados pelo sistema bancário.
-- **Conversão de Tipos:** Tratamento robusto para formatos de moeda brasileiros (`1.000,00` -> `float`) e datas (`dd/mm/yyyy` -> `datetime`).
-- **Ordenação Inteligente:** Inverte o padrão do extrato, colocando os dados mais recentes no topo.
-- **Exportação Nativa Excel:** Utiliza a engine `xlsxwriter` para formatar a largura das colunas e aplicar máscaras de contabilidade diretamente no arquivo final, poupando o usuário de qualquer ajuste visual.
+- **Data Cleaning Dinâmico:** Ignora automaticamente cabeçalhos e rodapés gerados pelo banco.
+- **Conversão de Tipos:** Tratamento robusto para formatos de moeda e datas padrão Brasil.
+- **Ordenação Inteligente:** Coloca as transações mais recentes no topo.
+- **Exportação Nativa Excel:** Formatação automática de largura de colunas e máscaras contábeis.
 
 ## 💻 Demonstração
 
-Você pode testar a aplicação diretamente no navegador, sem precisar instalar nada:
+Você pode testar a aplicação diretamente no navegador:
 👉 **[Acessar a Ferramenta Online](https://converter-extrato.streamlit.app/)**
 
 ![Demonstração do App](assets/demo.png)
 
 ## 🛠️ Como rodar localmente
 
-Se você quiser clonar e rodar o projeto na sua própria máquina:
-
 1. **Clone o repositório:**
    ```bash
    git clone [https://github.com/theunrealryan/csv2xlsx.git](https://github.com/theunrealryan/csv2xlsx.git)
    cd csv2xlsx
 
-    Crie um ambiente virtual (Opcional, mas recomendado):
+    Crie e ative um ambiente virtual:
     Bash
 
     python -m venv venv
-    source venv/bin/activate  # No Windows use: venv\Scripts\activate
+    source venv/bin/activate
 
     Instale as dependências:
     Bash
@@ -50,15 +48,14 @@ Se você quiser clonar e rodar o projeto na sua própria máquina:
 
     streamlit run app.py
 
-🏗️ Arquitetura e Tecnologias
+## 🏗️ Arquitetura e Decisões Técnicas
 
-    Frontend/Backend: Streamlit (Renderização server-side rápida).
+O projeto adota uma arquitetura *stateless* baseada em processamento volátil, priorizando a segurança estrutural no manuseio de dados financeiros.
 
-    Processamento de Dados: Pandas (DataFrames para manipulação em memória via BytesIO, garantindo a segurança dos dados sem persistência em disco).
-
-    Formatação de Saída: XlsxWriter (Injetado via Pandas engine para gerar o .xlsx formatado).
-
-    Hospedagem: Streamlit Community Cloud.
+* **Frontend:** Interface reativa construída com **Streamlit**, garantindo renderização *server-side* ágil e navegação fluida.
+* **Pipeline ETL (*In-Memory*):** Orquestrado com **Pandas** e `io.BytesIO`. Todo o processamento ocorre na memória RAM do container. A tolerância zero à persistência em disco assegura o isolamento e a privacidade total dos dados bancários.
+* **Camada de Exportação:** Motor **XlsxWriter** integrado de forma nativa ao Pandas, responsável por gerar o binário `.xlsx` dinamicamente, injetando metadados e formatação contábil em tempo de execução.
+* **Infraestrutura Cloud:** Hospedado no **Streamlit Community Cloud** utilizando *containers* efêmeros. O ambiente possui integração contínua (CI) acoplada ao GitHub e gestão inteligente de recursos via *Scale-to-Zero* (hibernação automática sem tráfego).
 
 📝 Licença
 
