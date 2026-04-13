@@ -63,7 +63,3 @@ Se você quiser clonar e rodar o projeto na sua própria máquina:
 📝 Licença
 
 Este projeto é open-source e está licenciado sob a MIT License.
-
-
-### O Toque Final:
-Para a imagem aparecer certinho no GitHub, crie uma pasta chamada `assets` no seu
