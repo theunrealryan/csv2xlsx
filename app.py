@@ -4,7 +4,7 @@ from io import BytesIO
 
 st.set_page_config(page_title="Conversor de Extrato", page_icon="📊")
 
-st.title("📊 Conversor Santander -> Modelo")
+st.title("📊 Conversor CSV -> Planilha")
 st.markdown("Faça upload do extrato em **CSV** e baixe a planilha **XLSX** formatada.")
 
 uploaded_file = st.file_uploader("Arraste o extrato do banco aqui", type=["csv"])
